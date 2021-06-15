@@ -91,6 +91,7 @@ const mapStateToProps = (state) => {
     preloading: state.preloading,
   };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     loadedAction: () => dispatch({ type: "LOADED" }),
