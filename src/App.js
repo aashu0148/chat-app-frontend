@@ -19,6 +19,7 @@ function App(props) {
   const jwtToken = JSON.parse(localStorage.getItem("chat-app")) || "";
 
   useEffect(() => {
+    if (!props.preloading) return;
     if (!jwtToken) {
       props.loadedAction();
     } else {
