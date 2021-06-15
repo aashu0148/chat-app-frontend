@@ -56,7 +56,7 @@ function App(props) {
           });
       });
     }
-  }, [jwtToken]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [jwtToken, props]);
 
   return (
     <div className="App semi-transparent">
