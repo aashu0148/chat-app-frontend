@@ -1,0 +1,21 @@
+.wrapper {
+  min-height: 80px;
+  min-width: 80px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader-circle {
+  width: 40px;
+  height: 40px;
+  border: 8px solid;
+  border-color: var(--primary-color) var(--secondary-color);
+  border-radius: 50%;
+  animation: spin 1.3s infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
