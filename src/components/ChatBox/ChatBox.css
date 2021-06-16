@@ -13,7 +13,7 @@
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .chat-box_body .message-right {
@@ -28,9 +28,23 @@
   border-radius: 12px;
   font-weight: 400;
   max-width: 80%;
+  padding-bottom: 2px;
 }
 
 .chat-box_body .message-right p {
   background-color: var(--primary-color);
   color: #fff;
+}
+
+.chat-box_body .chat-message-time {
+  width: 100%;
+  display: block;
+  font-size: 0.8rem;
+  color: #575757;
+  text-align: end;
+  margin-top: 5px;
+}
+
+.message-right .chat-message-time {
+  color: #d8d8d8;
 }

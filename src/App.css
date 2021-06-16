@@ -4,8 +4,7 @@
   width: 100%;
   min-width: 800px;
   max-width: 1150px;
-  min-height: 530px;
-  max-height: 570px;
+  height: 570px !important;
   text-align: start;
   overflow: hidden;
   display: flex;

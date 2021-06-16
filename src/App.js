@@ -19,7 +19,6 @@ function App(props) {
   const jwtToken = JSON.parse(localStorage.getItem("chat-app")) || "";
 
   useEffect(() => {
-    if (!props.preloading) return;
     if (!jwtToken) {
       props.loadedAction();
     } else {
@@ -101,7 +100,7 @@ const mapDispatchToProps = (dispatch) => {
         type: "LOGIN",
         name: data.name,
         email: data.email,
-        id: data._id,
+        id: data.id,
         image: data.image,
       }),
   };

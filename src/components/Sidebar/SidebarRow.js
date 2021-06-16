@@ -4,6 +4,7 @@ import { Avatar } from "@material-ui/core";
 function SidebarRow(props) {
   return (
     <div
+      onClick={props.onClick}
       className="sidebar-row"
       style={{ backgroundColor: props.active ? "#fff" : "" }}
     >
@@ -13,7 +14,7 @@ function SidebarRow(props) {
         src={props.image}
       />
       <div style={{ margin: "0 5px", flex: "10", textAlign: "start" }}>
-        <p style={{ margin: "0" }}>
+        <p style={{ margin: "0", textTransform: "capitalize" }}>
           {props.name
             ? props.name.length > 22
               ? props.name.substr(0, 22) + "..."

@@ -29,7 +29,10 @@ function Navbar(props) {
           alignItems: "center",
         }}
       >
-        <p>Welcome {props.name}</p>
+        <p>
+          Welcome{" "}
+          <span style={{ textTransform: "capitalize" }}>{props.name}</span>
+        </p>
         <Avatar
           style={{ height: "32px", width: "32px" }}
           src={`${process.env.REACT_APP_SERVER}/${props.image}`}
