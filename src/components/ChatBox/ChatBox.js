@@ -32,7 +32,7 @@ function ChatBox(props) {
           setErrorMsg("");
 
           setMessages(data.data.messages);
-          messageRef.current.scrollIntoView();
+          messageRef?.current.scrollIntoView();
         })
         .catch(() => {
           setErrorMsg("Error connecting to server");
