@@ -85,7 +85,7 @@ function Signup(props) {
     const formData = new FormData();
 
     formData.append("name", name.current.value);
-    formData.append("email", email.current.value);
+    formData.append("email", email.current.value.toLowerCase());
     formData.append("password", password.current.value);
     formData.append("image", file);
 
@@ -103,7 +103,7 @@ function Signup(props) {
 
         const token = jwt.sign(
           {
-            email: email.current.value,
+            email: email.current.value.toLowerCase(),
             password: password.current.value,
           },
           secretKey,

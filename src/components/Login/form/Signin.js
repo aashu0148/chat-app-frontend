@@ -49,7 +49,7 @@ function Signin(props) {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        email: email.current.value,
+        email: email.current.value.toLowerCase(),
         password: password.current.value,
       }),
     })
@@ -63,7 +63,7 @@ function Signin(props) {
 
         const token = jwt.sign(
           {
-            email: email.current.value,
+            email: email.current.value.toLowerCase(),
             password: password.current.value,
           },
           secretKey,
