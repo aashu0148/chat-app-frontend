@@ -20,6 +20,7 @@ function ChatBox(props) {
   const [arrivalMessage, setArrivalMessage] = useState();
 
   useEffect(() => {
+    socket.emit("user-disconnected");
     setMessages("");
     if (props.cid) {
       fetch(`${process.env.REACT_APP_SERVER}/message/${props.cid}`)
