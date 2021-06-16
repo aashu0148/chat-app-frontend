@@ -79,7 +79,7 @@ function ChatBox(props) {
     myMessages.push(arrivalMessage);
     setMessages(myMessages);
     setTimeout(
-      () => messageRef?.current.scrollIntoView({ behavior: "smooth" }),
+      () => messageRef?.current?.scrollIntoView({ behavior: "smooth" }),
       0
     );
   }, [arrivalMessage]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -128,13 +128,17 @@ function ChatBox(props) {
                   <div
                     style={{
                       margin: "4px",
-                      backgroundColor: props.fOnline ? "#37f40b" : "gray",
+                      backgroundColor: props.online.includes(props.fId)
+                        ? "#37f40b"
+                        : "gray",
                       borderRadius: "50%",
                       height: "10px",
                       width: "10px",
                     }}
                   />
-                  <span>{props.fOnline ? "Online" : "Offline"}</span>
+                  <span>
+                    {props.online.includes(props.fId) ? "Online" : "Offline"}
+                  </span>
                 </div>
               </div>
             </div>

@@ -12,6 +12,7 @@ function Sidebar(props) {
   const [selectedUser, setSelectedUser] = useState(-1);
 
   useEffect(() => {
+    if (!props.uid) return;
     fetch(`${process.env.REACT_APP_SERVER}/conversation/friends/${props.uid}`)
       .then(async (res) => {
         const data = await res.json();
@@ -75,10 +76,11 @@ function Sidebar(props) {
                     conversationId: item.conversationId,
                     fName: item.name,
                     fImage: item.image,
+                    friendId: item.id,
                   });
                   setSelectedUser(i);
                 }}
-                // online
+                online={props.online.includes(item.id)}
                 name={item.name}
                 message="This is the message"
                 image={process.env.REACT_APP_SERVER + "/" + item.image}
