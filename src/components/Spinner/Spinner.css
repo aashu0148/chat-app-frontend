@@ -1,6 +1,6 @@
 .wrapper {
-  min-height: 80px;
-  min-width: 80px;
+  min-height: 60px;
+  min-width: 60px;
   margin: auto;
   display: flex;
   justify-content: center;
@@ -14,6 +14,7 @@
   border-radius: 50%;
   animation: spin 1.3s infinite;
 }
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

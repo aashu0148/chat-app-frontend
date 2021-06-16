@@ -22,7 +22,7 @@ function SidebarRow(props) {
             : "-"}
         </p>
 
-        <small
+        {/* <small
           style={{
             whiteSpace: "nowrap",
           }}
@@ -32,7 +32,7 @@ function SidebarRow(props) {
               ? props.message.substr(0, 27) + "..."
               : props.message
             : "_"}
-        </small>
+        </small> */}
       </div>
       <div
         style={{

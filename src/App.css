@@ -19,6 +19,15 @@
   backdrop-filter: blur(3px);
   height: 100%;
 }
+.semi-transparent-less {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(3px);
+  height: 100%;
+}
+
+.overlay {
+  box-shadow: -4px 3px 20px rgba(0, 0, 0, 0.35);
+}
 
 @media (min-width: 400px) {
   .custom-scroll {
