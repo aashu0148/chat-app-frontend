@@ -55,7 +55,7 @@ function Sidebar(props) {
           setEmailError(data.message);
           return;
         }
-        const result = [...friends];
+        const result = Array.isArray(friends) ? [...friends] : [];
         result.push({
           ...data.data.memberDetails.find((e) => e.id !== props.uid),
           conversationId: data.data._id,
