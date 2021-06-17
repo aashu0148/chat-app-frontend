@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import jwt from "jsonwebtoken";
 import secretKey from "./secret";
+import openWebSocket from "socket.io-client";
 
 import Navbar from "./components/Navbar/Navbar";
 import Main from "./components/Main/Main";
@@ -15,8 +16,14 @@ import Login from "./components/Login/Login";
 import Spinner from "./components/Spinner/Spinner";
 import "./App.css";
 
+const socket = openWebSocket.connect(process.env.REACT_APP_SERVER);
+
 function App(props) {
   const jwtToken = JSON.parse(localStorage.getItem("chat-app")) || "";
+
+  useEffect(() => {
+    props.setSocketAction(socket);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!jwtToken) {
@@ -103,6 +110,7 @@ const mapDispatchToProps = (dispatch) => {
         id: data.id,
         image: data.image,
       }),
+    setSocketAction: (socket) => dispatch({ type: "SOCKET", socket }),
   };
 };
 

@@ -45,7 +45,7 @@ function Sidebar(props) {
       },
       body: JSON.stringify({
         email: props.email,
-        fEmail: email.current.value,
+        fEmail: email.current.value.trim(),
       }),
     })
       .then(async (res) => {
@@ -229,7 +229,8 @@ function Sidebar(props) {
                     conversationId: item.conversationId,
                     fName: item.name,
                     fImage: item.image,
-                    friendId: item.id,
+                    fId: item.id,
+                    fEmail: item.email,
                   });
                   setSelectedUser(i);
                 }}

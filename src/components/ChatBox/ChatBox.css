@@ -1,6 +1,7 @@
 .chat-box {
   display: flex;
   flex-direction: column;
+  transition: 200ms;
 }
 .chat-box_body {
   flex: 1;
@@ -47,4 +48,28 @@
 
 .message-right .chat-message-time {
   color: #d8d8d8;
+}
+
+.chat-box .expanded-header {
+  flex: 9;
+  justify-content: space-between;
+  transition: 200ms;
+}
+
+.chat-box .expanded-header .MuiAvatar-root {
+  height: 280px !important;
+  width: 250px !important;
+  transition: 200ms;
+}
+
+.chat-box .expanded-header-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-large);
+  transition: 200ms;
+  cursor: text !important;
 }

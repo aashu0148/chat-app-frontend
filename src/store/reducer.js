@@ -5,6 +5,7 @@ const initialState = {
   email: "",
   image: "",
   preloading: true,
+  socket: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -12,6 +13,11 @@ const reducer = (state = initialState, action) => {
     case "LOADED": {
       const myState = { ...state };
       myState.preloading = false;
+      return myState;
+    }
+    case "SOCKET": {
+      const myState = { ...state };
+      myState.socket = action.socket;
       return myState;
     }
     case "LOGIN": {
@@ -31,6 +37,7 @@ const reducer = (state = initialState, action) => {
       myState.email = "";
       myState.image = "";
       localStorage.removeItem("chat-app");
+      myState.socket.emit("user-disconnected");
       return myState;
     }
 
