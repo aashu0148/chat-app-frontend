@@ -51,11 +51,26 @@ function ChatBox(props) {
       text: input.current.value,
     });
 
+    const myMessages = [...messages];
+    myMessages.push({
+      conversationId: props.cid,
+      senderId: props.uid,
+      text: input.current.value,
+    });
+    setMessages(myMessages);
+    setTimeout(
+      () => messageRef?.current?.scrollIntoView({ behavior: "smooth" }),
+      0
+    );
+
     e.target.reset();
   };
 
   useEffect(() => {
     if (!messages) return;
+
+    if (arrivalMessage.senderId === props.uid) return;
+
     const myMessages = [...messages];
     myMessages.push(arrivalMessage);
     setMessages(myMessages);
@@ -73,10 +88,6 @@ function ChatBox(props) {
         timestamp: message.timestamp,
       });
     });
-
-    return () => {
-      props.socket.off("getMessage", (message) => {});
-    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
