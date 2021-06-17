@@ -15,7 +15,7 @@ function Sidebar(props) {
   const email = useRef();
 
   const [errorMsg, setErrorMsg] = useState("");
-  const [friends, setFriends] = useState();
+  const [friends, setFriends] = useState([]);
   const [selectedUser, setSelectedUser] = useState(-1);
 
   const [modalOpen, setModalOpen] = useState(false);
