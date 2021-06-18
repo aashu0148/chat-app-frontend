@@ -30,14 +30,25 @@ function ChatBox(props) {
             return;
           }
           setErrorMsg("");
-          setMessages(data.data.messages);
+
+          const myMessages = data.data.messages;
+
+          const index = props.messages.findIndex(
+            (e) => e.conversationId === props.cid
+          );
+
+          if (index > -1) {
+            myMessages.push(...props.messages[index].messages);
+          }
+
+          setMessages(myMessages);
           messageRef?.current?.scrollIntoView();
         })
         .catch(() => {
           setErrorMsg("Error connecting to server");
         });
     }
-  }, [props.cid]);
+  }, [props.cid]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -48,14 +59,15 @@ function ChatBox(props) {
     props.socket.emit("sendMessage", {
       conversationId: props.cid,
       senderId: props.uid,
+      friendId: props.friend.id,
       text: input.current.value,
     });
 
     const myMessages = [...messages];
     myMessages.push({
-      conversationId: props.cid,
       senderId: props.uid,
       text: input.current.value,
+      timestamp: Date.now(),
     });
     setMessages(myMessages);
     setTimeout(
@@ -69,10 +81,27 @@ function ChatBox(props) {
   useEffect(() => {
     if (!messages) return;
 
-    if (arrivalMessage.senderId === props.uid) return;
+    props.storeMessageAction({
+      conversationId: arrivalMessage.conversationId,
+      message: {
+        text: arrivalMessage.text,
+        senderId: arrivalMessage.senderId,
+        timestamp: arrivalMessage.timestamp,
+      },
+    });
+
+    if (
+      arrivalMessage.senderId === props.uid ||
+      arrivalMessage.senderId !== props.friend.id
+    )
+      return;
 
     const myMessages = [...messages];
-    myMessages.push(arrivalMessage);
+    myMessages.push({
+      text: arrivalMessage.text,
+      senderId: arrivalMessage.senderId,
+      timestamp: arrivalMessage.timestamp,
+    });
     setMessages(myMessages);
     setTimeout(
       () => messageRef?.current?.scrollIntoView({ behavior: "smooth" }),
@@ -82,11 +111,7 @@ function ChatBox(props) {
 
   useEffect(() => {
     props.socket.on("getMessage", (message) => {
-      setArrivalMessage({
-        text: message.text,
-        senderId: message.senderId,
-        timestamp: message.timestamp,
-      });
+      setArrivalMessage(message);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -251,7 +276,19 @@ const mapStateToProps = (state) => {
     name: state.name,
     uid: state.id,
     socket: state.socket,
+    messages: state.messages,
   };
 };
 
-export default connect(mapStateToProps)(ChatBox);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    storeMessageAction: (data) =>
+      dispatch({
+        type: "STORE_MESSAGE",
+        message: data.message,
+        conversationId: data.conversationId,
+      }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatBox);

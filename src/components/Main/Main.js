@@ -38,7 +38,7 @@ function Main(props) {
       className="App-body"
       container
       spacing={3}
-      style={{ width: "100%", margin: "0", flexWrap: "nowrap" }}
+      style={{ margin: "0", flexWrap: "nowrap" }}
     >
       <Grid item md={3} lg={3}>
         <Sidebar changeChat={changeChat} online={online} />

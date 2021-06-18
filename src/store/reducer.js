@@ -6,6 +6,7 @@ const initialState = {
   image: "",
   preloading: true,
   socket: "",
+  messages: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -36,8 +37,30 @@ const reducer = (state = initialState, action) => {
       myState.id = "";
       myState.email = "";
       myState.image = "";
+      myState.messages = "";
       localStorage.removeItem("chat-app");
       myState.socket.emit("user-disconnected");
+      return myState;
+    }
+
+    case "STORE_MESSAGE": {
+      const message = action.message;
+      const conversationId = action.conversationId;
+      const myState = { ...state };
+
+      const index = myState.messages.findIndex(
+        (e) => e.conversationId === conversationId
+      );
+
+      if (index < 0) {
+        myState.messages.push({
+          conversationId,
+          messages: [message],
+        });
+      } else {
+        myState.messages[index].messages.push(message);
+      }
+
       return myState;
     }
 
