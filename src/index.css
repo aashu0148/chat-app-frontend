@@ -30,8 +30,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  min-width: 1200px;
-  width: 100%;
+  min-width: 100vw;
+  width: 1180px;
   height: 100%;
   width: fit-content;
   background-color: #ff982a;
