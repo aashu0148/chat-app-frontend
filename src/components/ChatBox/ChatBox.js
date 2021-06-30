@@ -114,7 +114,6 @@ function ChatBox(props) {
     props.socket.on("getMessage", (message) => {
       setArrivalMessage(message);
     });
-    input.current.focus();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
