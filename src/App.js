@@ -22,12 +22,12 @@ const socket = openWebSocket.connect(process.env.REACT_APP_SERVER);
 
 let viewTimer;
 function App(props) {
-  const [mobileView, setMobileView] = useState(window.outerWidth < 650);
+  const [mobileView, setMobileView] = useState(window.outerWidth < 850);
 
   const changeView = () => {
     clearTimeout(viewTimer);
     viewTimer = setTimeout(() => {
-      setMobileView(window.outerWidth < 650);
+      setMobileView(window.outerWidth < 850);
     }, 400);
   };
 

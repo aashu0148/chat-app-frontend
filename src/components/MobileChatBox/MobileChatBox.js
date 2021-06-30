@@ -120,10 +120,7 @@ function MobileChatBox(props) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div
-      className="chat-box semi-transparent"
-      style={{ borderRadius: "10px", padding: "10px" }}
-    >
+    <div className="chat-box semi-transparent" style={{ padding: "10px" }}>
       {props.cid ? (
         errorMsg ? (
           <small className="field-error-msg" style={{ fontSize: "1rem" }}>

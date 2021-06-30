@@ -7,7 +7,7 @@ const initialState = {
   preloading: true,
   socket: "",
   messages: [],
-  mobileView: window.outerWidth < 650,
+  mobileView: window.outerWidth < 850,
 };
 
 const reducer = (state = initialState, action) => {

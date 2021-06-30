@@ -50,7 +50,7 @@ function MobileMain(props) {
     <Grid
       className="App-body"
       container
-      spacing={3}
+      spacing={sidebarOpen ? 3 : 0}
       style={{ margin: "0", flexWrap: "nowrap", width: "100%" }}
     >
       <Grid item xs={12} sm={12}>
