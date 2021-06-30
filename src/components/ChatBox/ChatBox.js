@@ -75,7 +75,8 @@ function ChatBox(props) {
       0
     );
 
-    e.target.reset();
+    input.current.value = "";
+    input.current.focus();
   };
 
   useEffect(() => {
@@ -113,6 +114,7 @@ function ChatBox(props) {
     props.socket.on("getMessage", (message) => {
       setArrivalMessage(message);
     });
+    input.current.focus();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
