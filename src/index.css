@@ -19,7 +19,6 @@
   --font-writing: "Handlee", cursive;
 }
 #root {
-  /* width: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,8 +29,9 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  min-width: 100%;
-  width: 1180px;
+  /* min-width: 100%; */
+  width: 100%;
+  margin: auto;
   height: 100%;
   width: fit-content;
   background-color: #ff982a;

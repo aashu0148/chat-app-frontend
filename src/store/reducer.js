@@ -7,10 +7,16 @@ const initialState = {
   preloading: true,
   socket: "",
   messages: [],
+  mobileView: window.outerWidth < 650,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "MOBILE_VIEW": {
+      const myState = { ...state };
+      myState.mobileView = action.mobileView;
+      return myState;
+    }
     case "LOADED": {
       const myState = { ...state };
       myState.preloading = false;

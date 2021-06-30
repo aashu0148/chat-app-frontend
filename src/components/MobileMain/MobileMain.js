@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 
-import ChatBox from "../ChatBox/ChatBox";
+import MobileChatBox from "../MobileChatBox/MobileChatBox";
 import Sidebar from "../Sidebar/Sidebar";
 
-function Main(props) {
+function MobileMain(props) {
+  const history = useHistory();
+
   const [conversationId, setConversationId] = useState("");
   const [friend, setFriend] = useState();
   const [online, setOnline] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const changeChat = (data) => {
+    history.push("chatbox");
     setConversationId(data.conversationId);
     const myFriend = {
       id: data.fId,
@@ -22,6 +27,14 @@ function Main(props) {
   };
 
   useEffect(() => {
+    history.listen((location, action) => {
+      if (location.pathname.includes("chatbox")) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    });
+
     props.socket.emit("user-connected", props.uid);
 
     props.socket.on("get-online-users", (users) => {
@@ -40,12 +53,15 @@ function Main(props) {
       spacing={3}
       style={{ margin: "0", flexWrap: "nowrap", width: "100%" }}
     >
-      <Grid item md={3} lg={3}>
-        <Sidebar changeChat={changeChat} online={online} />
+      <Grid item xs={12} sm={12}>
+        {sidebarOpen ? (
+          <Sidebar changeChat={changeChat} online={online} />
+        ) : (
+          <MobileChatBox cid={conversationId} online={online} friend={friend} />
+        )}
       </Grid>
-      <Grid item md={9} lg={9} style={{ width: "100%" }}>
-        <ChatBox cid={conversationId} online={online} friend={friend} />
-      </Grid>
+      {/* <Grid item md={9} lg={9} style={{ width: "100%" }}>
+      </Grid> */}
     </Grid>
   );
 }
@@ -57,4 +73,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps)(MobileMain);

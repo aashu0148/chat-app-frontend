@@ -1,8 +1,5 @@
 .App {
-  margin: 10px;
   border-radius: 25px;
-  width: 1120px;
-  height: 570px !important;
   text-align: start;
   overflow: hidden;
   display: flex;

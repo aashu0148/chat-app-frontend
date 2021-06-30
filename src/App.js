@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -12,16 +12,33 @@ import openWebSocket from "socket.io-client";
 
 import Navbar from "./components/Navbar/Navbar";
 import Main from "./components/Main/Main";
+import MobileMain from "./components/MobileMain/MobileMain";
 import Login from "./components/Login/Login";
+import MobileLogin from "./components/MobileLogin/MobileLogin";
 import Spinner from "./components/Spinner/Spinner";
 import "./App.css";
 
 const socket = openWebSocket.connect(process.env.REACT_APP_SERVER);
 
+let viewTimer;
 function App(props) {
+  const [mobileView, setMobileView] = useState(window.outerWidth < 650);
+
+  const changeView = () => {
+    clearTimeout(viewTimer);
+    viewTimer = setTimeout(() => {
+      setMobileView(window.outerWidth < 650);
+    }, 400);
+  };
+
+  useEffect(() => {
+    props.mobileViewAction(mobileView);
+  }, [mobileView]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const jwtToken = JSON.parse(localStorage.getItem("chat-app")) || "";
 
   useEffect(() => {
+    window.addEventListener("resize", changeView);
     props.setSocketAction(socket);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -66,20 +83,33 @@ function App(props) {
   }, [jwtToken]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="App semi-transparent">
+    <div
+      style={
+        props.mobileView
+          ? { width: "100vw", height: "100vh", borderRadius: "2px" }
+          : { width: "1120px", margin: "10px", height: "570px" }
+      }
+      className="App semi-transparent"
+    >
       {props.preloading ? (
         <Spinner />
       ) : (
         <Router>
           <Switch>
             <Route path="/login">
-              {props.auth ? <Redirect to="/" /> : <Login />}
+              {props.auth ? (
+                <Redirect to="/" />
+              ) : props.mobileView ? (
+                <MobileLogin />
+              ) : (
+                <Login />
+              )}
             </Route>
             <Route path="/">
               {props.auth ? (
                 <>
                   <Navbar />
-                  <Main />
+                  {props.mobileView ? <MobileMain /> : <Main />}
                 </>
               ) : (
                 <Redirect to="/login" />
@@ -96,11 +126,14 @@ const mapStateToProps = (state) => {
   return {
     auth: state.auth,
     preloading: state.preloading,
+    mobileView: state.mobileView,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    mobileViewAction: (view) =>
+      dispatch({ type: "MOBILE_VIEW", mobileView: view }),
     loadedAction: () => dispatch({ type: "LOADED" }),
     loginAction: (data) =>
       dispatch({
