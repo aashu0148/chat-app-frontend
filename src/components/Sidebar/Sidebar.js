@@ -16,11 +16,13 @@ function Sidebar(props) {
 
   const [errorMsg, setErrorMsg] = useState("");
   const [friends, setFriends] = useState([]);
+  const [searchedFriend, setSearchedFriend] = useState([]);
   const [selectedUser, setSelectedUser] = useState(-1);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [addButtonLoading, setAddButtonLoading] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const debounce = (func, time) => {
     clearTimeout(debounceTimer);
@@ -62,6 +64,7 @@ function Sidebar(props) {
         });
 
         setFriends(result);
+        setSearchedFriend(result);
 
         setEmailError("");
         setModalOpen(false);
@@ -71,6 +74,27 @@ function Sidebar(props) {
         setAddButtonLoading(false);
         setEmailError("Can't connect to server. Please retry");
       });
+  };
+
+  const searchFriend = (e) => {
+    e.preventDefault();
+    if (!searchValue) {
+      setSearchedFriend(friends);
+      return;
+    }
+
+    const regex = new RegExp(`${searchValue}`, "i");
+    if (friends.length === 0) {
+      setSearchedFriend(<p>No friend with name "{searchValue}" found.</p>);
+      return;
+    }
+    const result = friends.filter((e) => regex.test(e.name));
+
+    if (result.length === 0) {
+      setSearchedFriend(<p>No friend with name "{searchValue}" found.</p>);
+    } else {
+      setSearchedFriend(result);
+    }
   };
 
   useEffect(() => {
@@ -84,7 +108,8 @@ function Sidebar(props) {
         }
 
         if (data.data.length === 0) {
-          setFriends(<p>No Friends found</p>);
+          setFriends([]);
+          setSearchedFriend(<p>No friends found</p>);
           return;
         }
         const result = data.data.map((item) => {
@@ -94,6 +119,7 @@ function Sidebar(props) {
           };
         });
         setFriends(result);
+        setSearchedFriend(result);
       })
       .catch(() => {
         setErrorMsg("Error connecting to Server");
@@ -212,34 +238,45 @@ function Sidebar(props) {
         )
       ) : (
         <>
-          <div
-            className="sidebar_search"
-            style={{ margin: "auto auto 20px auto" }}
-          >
-            <SearchIcon style={{ cursor: "pointer", color: "#afacad" }} />
-            <input type="text" placeholder="Search here" />
-          </div>
-          <div className="sidebar-body custom-scroll">
-            {friends.map((item, i) => (
-              <SidebarRow
-                key={i}
-                active={selectedUser === i}
-                onClick={() => {
-                  props.changeChat({
-                    conversationId: item.conversationId,
-                    fName: item.name,
-                    fImage: item.image,
-                    fId: item.id,
-                    fEmail: item.email,
-                  });
-                  setSelectedUser(i);
-                }}
-                online={props.online.includes(item.id)}
-                name={item.name}
-                message="This is the message"
-                image={process.env.REACT_APP_SERVER + "/" + item.image}
+          <form onSubmit={searchFriend}>
+            <div
+              className="sidebar_search"
+              style={{ margin: "auto auto 20px auto" }}
+            >
+              <SearchIcon
+                onClick={searchFriend}
+                style={{ cursor: "pointer", color: "#afacad" }}
               />
-            ))}
+              <input
+                type="text"
+                onChange={(e) => setSearchValue(e.target.value)}
+                placeholder="Search here"
+              />
+            </div>
+          </form>
+          <div className="sidebar-body custom-scroll">
+            {Array.isArray(searchedFriend)
+              ? searchedFriend.map((item, i) => (
+                  <SidebarRow
+                    key={i}
+                    active={selectedUser === i}
+                    onClick={() => {
+                      props.changeChat({
+                        conversationId: item.conversationId,
+                        fName: item.name,
+                        fImage: item.image,
+                        fId: item.id,
+                        fEmail: item.email,
+                      });
+                      setSelectedUser(i);
+                    }}
+                    online={props.online.includes(item.id)}
+                    name={item.name}
+                    message="This is the message"
+                    image={process.env.REACT_APP_SERVER + "/" + item.image}
+                  />
+                ))
+              : searchedFriend}
           </div>
         </>
       )}
